@@ -16,6 +16,10 @@ function Home() {
       });
   }, [pageIndex]);
 
+  if (!foods) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <h1>천개의 레시피</h1>
