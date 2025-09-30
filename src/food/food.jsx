@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../styles/common.css";
 import styles from "./food.module.css";
 
 function Food() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [food, setFood] = useState(null);
 
   useEffect(() => {
@@ -22,6 +23,13 @@ function Food() {
 
   return (
     <div className={styles.foodContainer}>
+      <button 
+        className={styles.backButton}
+        onClick={() => navigate(-1)}
+      >
+        ← 뒤로 가기
+      </button>
+      
       <div className={styles.foodHeader}>
         <div className={styles.foodHero}>
           <img 
