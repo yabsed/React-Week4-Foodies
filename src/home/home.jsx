@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "../styles/common.css";
 import styles from "./home.module.css";
 
 function Home() {
+  const [searchParams] = useSearchParams();
 
   const N = 8
 
-  const [pageIndex, setPageIndex] = useState(1); 
+  const [pageIndex, setPageIndex] = useState(() => {
+    const page = searchParams.get('page');
+    return page ? parseInt(page, 10) : 1;
+  }); 
   const [foods, setFoods] = useState([]);
   const [foodsNum, setFoodsNum] = useState(0);
 

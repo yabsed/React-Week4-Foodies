@@ -7,6 +7,10 @@ function Food() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [food, setFood] = useState(null);
+  
+  const N = 8;
+  // id를 이용해 해당 음식이 몇 번째 페이지에 있는지 계산
+  const pageIndex = Math.floor((parseInt(id) - 1) / N) + 1;
 
   useEffect(() => {
     fetch(`https://dummyjson.com/recipes/${id}`)
@@ -25,7 +29,7 @@ function Food() {
     <div className={styles.foodContainer}>
       <button 
         className={styles.backButton}
-        onClick={() => navigate(-1)}
+        onClick={() => navigate(`/React-Week4-Foodies/?page=${pageIndex}`)}
       >
         ← 뒤로 가기
       </button>
