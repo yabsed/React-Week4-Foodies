@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function App() {
+function Home() {
 
   const N = 12
 
@@ -47,4 +47,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
