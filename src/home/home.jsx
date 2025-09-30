@@ -8,7 +8,14 @@ function Home() {
   const navigate = useNavigate();
 
   const N = 8;
-  const currentPage = parseInt(searchParams.get('page')) || 1; 
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  
+  // page 파라미터가 없으면 ?page=1로 리다이렉트
+  useEffect(() => {
+    if (!searchParams.get('page')) {
+      navigate('/React-Week4-Foodies/?page=1', { replace: true });
+    }
+  }, [searchParams, navigate]); 
   const [foods, setFoods] = useState([]);
   const [foodsNum, setFoodsNum] = useState(0);
 
