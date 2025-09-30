@@ -6,6 +6,6 @@
 
 ## 배포 링크
 
-[My Foodies!](https://yabsed.github.io/React-Week4-Foodies)
+[My Foodies!](https://yabsed.github.io/React-Week4-Foodies/?page=1)
 
 
