@@ -9,5 +9,5 @@ export default defineConfig({
       usePolling: true,
     },
   },
-  base: '/React-Week4/'
+  base: '/React-Week4-Foodies/'
 })

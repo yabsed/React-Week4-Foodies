@@ -9,8 +9,8 @@ import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 createRoot(document.getElementById('root')).render(
   <Router>
     <Routes>
-      <Route path="/React-Week4/" element={<Home />} />
-      <Route path="/React-Week4/:id" element={<Food />} />
+      <Route path="/React-Week4-Foodies/" element={<Home />} />
+      <Route path="/React-Week4-Foodies/:id" element={<Food />} />
     </Routes>
   </Router>
 )

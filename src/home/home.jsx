@@ -63,7 +63,7 @@ function Home() {
       
       <div className={styles.recipesGrid}>
         {foods.map(food => (
-          <Link key={food.id} to={`/React-Week4/${food.id}`} className={styles.recipeCard}>
+          <Link key={food.id} to={`/React-Week4-Foodies/${food.id}`} className={styles.recipeCard}>
             <img 
               src={food.image} 
               alt={food.name} 
