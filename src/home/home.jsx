@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import "../styles/common.css";
 import styles from "./home.module.css";
 
 function Home() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const N = 8
-
-  const [pageIndex, setPageIndex] = useState(() => {
-    const page = searchParams.get('page');
-    return page ? parseInt(page, 10) : 1;
-  }); 
+  const N = 8;
+  const currentPage = parseInt(searchParams.get('page')) || 1; 
   const [foods, setFoods] = useState([]);
   const [foodsNum, setFoodsNum] = useState(0);
 
   useEffect(() => {
-    fetch(`https://dummyjson.com/recipes?limit=${N}&skip=${N*(pageIndex-1)}`)
+    fetch(`https://dummyjson.com/recipes?limit=${N}&skip=${N*(currentPage-1)}`)
       .then(res => res.json())
       .then(data => {
         setFoods(data.recipes); 
         setFoodsNum(data.total);
       });
-  }, [pageIndex]);
+  }, [currentPage]);
 
   if (!foods || foods.length === 0) {
     return <div className="loading">레시피를 불러오는 중...</div>;
@@ -43,7 +40,7 @@ function Home() {
       }
     } else {
       // 항상 5개 페이지를 표시하도록 로직 수정
-      let startPage = Math.max(1, pageIndex - 2);
+      let startPage = Math.max(1, currentPage - 2);
       let endPage = startPage + maxVisiblePages - 1;
       
       // 마지막 페이지를 넘어가면 시작 페이지를 조정
@@ -58,6 +55,10 @@ function Home() {
     }
     
     return pages;
+  };
+
+  const changePage = (newPage) => {
+    navigate(`/React-Week4-Foodies/?page=${newPage}`);
   };
 
   return (
@@ -92,8 +93,8 @@ function Home() {
         {/* 이전 페이지 버튼 */}
         <button
           className={styles.paginationButton}
-          onClick={() => setPageIndex(pageIndex - 1)}
-          disabled={pageIndex === 1}
+          onClick={() => changePage(currentPage - 1)}
+          disabled={currentPage === 1}
         >
           ← 이전
         </button>
@@ -103,8 +104,8 @@ function Home() {
           <button
             key={num}
             className={styles.paginationButton}
-            onClick={() => setPageIndex(num)}
-            disabled={pageIndex === num}
+            onClick={() => changePage(num)}
+            disabled={currentPage === num}
           >
             {num}
           </button>
@@ -113,8 +114,8 @@ function Home() {
         {/* 다음 페이지 버튼 */}
         <button
           className={styles.paginationButton}
-          onClick={() => setPageIndex(pageIndex + 1)}
-          disabled={pageIndex === totalPages}
+          onClick={() => changePage(currentPage + 1)}
+          disabled={currentPage === totalPages}
         >
           다음 →
         </button>
@@ -123,8 +124,8 @@ function Home() {
       {/* 페이지 정보 표시 */}
       <div className={styles.pageInfo}>
         <p>
-          전체 {foodsNum}개 레시피 중 {((pageIndex - 1) * N) + 1} - {Math.min(pageIndex * N, foodsNum)}번째 표시 
-          (페이지 {pageIndex} / {totalPages})
+          전체 {foodsNum}개 레시피 중 {((currentPage - 1) * N) + 1} - {Math.min(currentPage * N, foodsNum)}번째 표시 
+          (페이지 {currentPage} / {totalPages})
         </p>
       </div>
     </div>
