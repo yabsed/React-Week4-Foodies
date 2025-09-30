@@ -44,7 +44,7 @@ function Food() {
             </span>
             <div className={styles.foodQuickInfo}>
               <div className={styles.quickInfoItem}>
-                <p><span className="emoji">🍽️</span> {food.cuisine}요리</p>
+                <p><span className="emoji">🍽️</span> {food.cuisine} 요리</p>
               </div>
               <div className={styles.quickInfoItem}>
                 <p><span className="emoji">⏱️</span> 준비 {food.prepTimeMinutes}분</p>

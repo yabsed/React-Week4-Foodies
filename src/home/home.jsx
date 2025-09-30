@@ -5,23 +5,56 @@ import styles from "./home.module.css";
 
 function Home() {
 
-  const N = 12
+  const N = 8
 
   const [pageIndex, setPageIndex] = useState(1); 
   const [foods, setFoods] = useState([]);
+  const [foodsNum, setFoodsNum] = useState(0);
 
   useEffect(() => {
     fetch(`https://dummyjson.com/recipes?limit=${N}&skip=${N*(pageIndex-1)}`)
       .then(res => res.json())
       .then(data => {
         setFoods(data.recipes); 
-        console.log(data.recipes); 
+        setFoodsNum(data.total);
       });
   }, [pageIndex]);
 
   if (!foods || foods.length === 0) {
     return <div className="loading">레시피를 불러오는 중...</div>;
   }
+
+  // 총 페이지 수 계산
+  const totalPages = Math.ceil(foodsNum / N);
+  
+  // 페이지네이션 번호 생성 함수
+  const generatePageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      // 총 페이지가 5개 이하면 모든 페이지 표시
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      // 항상 5개 페이지를 표시하도록 로직 수정
+      let startPage = Math.max(1, pageIndex - 2);
+      let endPage = startPage + maxVisiblePages - 1;
+      
+      // 마지막 페이지를 넘어가면 시작 페이지를 조정
+      if (endPage > totalPages) {
+        endPage = totalPages;
+        startPage = endPage - maxVisiblePages + 1;
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        pages.push(i);
+      }
+    }
+    
+    return pages;
+  };
 
   return (
     <div className={styles.homeContainer}>
@@ -52,7 +85,17 @@ function Home() {
       </div>
       
       <div className={styles.pagination}>
-        {[1,2,3,4,5,6,7,8,9,10].map(num => (
+        {/* 이전 페이지 버튼 */}
+        <button
+          className={styles.paginationButton}
+          onClick={() => setPageIndex(pageIndex - 1)}
+          disabled={pageIndex === 1}
+        >
+          ← 이전
+        </button>
+        
+        {/* 페이지 번호들 */}
+        {generatePageNumbers().map(num => (
           <button
             key={num}
             className={styles.paginationButton}
@@ -62,6 +105,23 @@ function Home() {
             {num}
           </button>
         ))}
+        
+        {/* 다음 페이지 버튼 */}
+        <button
+          className={styles.paginationButton}
+          onClick={() => setPageIndex(pageIndex + 1)}
+          disabled={pageIndex === totalPages}
+        >
+          다음 →
+        </button>
+      </div>
+      
+      {/* 페이지 정보 표시 */}
+      <div className={styles.pageInfo}>
+        <p>
+          전체 {foodsNum}개 레시피 중 {((pageIndex - 1) * N) + 1} - {Math.min(pageIndex * N, foodsNum)}번째 표시 
+          (페이지 {pageIndex} / {totalPages})
+        </p>
       </div>
     </div>
   );
