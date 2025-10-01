@@ -56,6 +56,9 @@ function Food() {
               <div className={styles.quickInfoItem}>
                 <p><span className="emoji">🔥</span> 조리 {food.cookTimeMinutes}분</p>
               </div>
+              <div className={styles.quickInfoItem}>
+                <p><span className="emoji">😋</span> 총합 { food.prepTimeMinutes+ food.cookTimeMinutes}분</p>
+              </div>
             </div>
           </div>
         </div>
